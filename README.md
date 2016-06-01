@@ -1,4 +1,5 @@
-# ML_Nano
+# Udacity Machine Learning Nanodegree
+
 Course materials and submissions for Udacity Machine Learning Nanodegree
 
 [More course info available here]
