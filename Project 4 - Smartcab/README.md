@@ -30,7 +30,7 @@ This will run the `agent.py` file and execute your agent code.
 # Requirements:
 This project requires **Python 2.7** and the following Python libraries installed:
 
-- [pygame]((https://www.pygame.org/wiki/GettingStarted)
+- [pygame](https://www.pygame.org/wiki/GettingStarted)
 
 [More course info about the nanodegree program available here]
 (https://www.udacity.com/course/machine-learning-engineer-nanodegree--nd009)
