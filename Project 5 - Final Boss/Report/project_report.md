@@ -80,24 +80,83 @@ My intended solution to this problem will be as follows:
 1. Identify a suitable framework/ library to build a pre-trained network (either Keras or TensorFlow)
 2. Construct an existing network (either VGG 16 or Inception)
 3. Load pre-trained weights into the previously built network, available [here for Keras](https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3) or here for TensorFlow [###todo links for weight files]
-4. Remove the original model's top layers and replace with one suitable to perform our classification tasks
-5. Update the bottlenecks for the
+4. Remove the original model's top layers and replace with one suitable to perform our classification tasks.
+5. Update the bottlenecks- the penultimate layers of the model that perform the actual classification.
+6. Retrain the network on my images of interest.  I investigate 2 options- binary classification or a closed world problem where images of only Nike or Altra shoes are expected and and open world [###todo multiple classification? what's the term here] classification of images that could be of Nike or Altra shoes or some third category.
+7. Evaluate model performance based on a number of metrics
+8. Vary hyperparameters and compare performance
+9. Select the optimum solution
 
 *In this section, you will want to clearly define the problem that you are trying to solve, including the strategy (outline of tasks) you will use to achieve the desired solution. You should also thoroughly discuss what the intended solution will be for this problem. Questions to ask yourself when writing this section:
 - _Is the problem statement clearly defined? Will the reader understand what you are expecting to solve?_
 - _Have you thoroughly discussed how you will attempt to solve the problem?_
-- _Is an anticipated solution clearly defined? Will the reader understand what results you are looking for?_
+- _Is an anticipated solution clearly defined? Will the reader understand what results you are looking for?_*
 
 ### Metrics
-In this section, you will need to clearly define the metrics or calculations you will use to measure performance of a model or result in your project. These calculations and metrics should be justified based on the characteristics of the problem and problem domain. Questions to ask yourself when writing this section:
+
+I intend to use the accuracy of my model as the primary metric.  The accuracy comes in a few different forms.
+
+In general it is the percentage of how many images the network correctly identified.  However, there are 3 different measures of the models' accuracy- training, validation, and test.
+
+Overfitting, a model's "over-learning" of features in the training set.
+
+![overfitting](Run04/Run04-Accuracy.png "an example of overfitting")
+
+To reduce and mitigate overfitting, we split our images into 3 categories.
+1. Training Data - 80% of the images are used for the model to learn
+2. Validation Data - 10% of the images are used for periodic "checking" of our model during training
+3. Test Data - 10% of the images are used to predict real world results of our model against images it has never seen.
+
+[###todo get test results for all of my TF runs]
+
+Cross entropy is another metric that I will use to quantify and understand a model's performance, as well as its progress during training.
+
+![cross_entropy](crossentropy_summary.png)
+
+By using these 2 metrics we'll be able to quantify how well our model is performing via the accuracy but also how well the model is *learning* via the cross entropy.
+
+*In this section, you will need to clearly define the metrics or calculations you will use to measure performance of a model or result in your project. These calculations and metrics should be justified based on the characteristics of the problem and problem domain. Questions to ask yourself when writing this section:
 - _Are the metrics you’ve chosen to measure the performance of your models clearly discussed and defined?_
-- _Have you provided reasonable justification for the metrics chosen based on the problem and solution?_
+- _Have you provided reasonable justification for the metrics chosen based on the problem and solution?_*
 
 
 ## II. Analysis
 _(approx. 2-4 pages)_
 
 ### Data Exploration
+
+2 datasets were used for this.
+
+#### First data set
+
+Altra - 110 images (no cropped/ transformed images)
+Nike - 470 images (200 full size and 270 cropped images)
+
+|           Test Set #1                     |
+|---------|-------------|------------|------|
+|         | Training    | Validation | Test |
+| Nike    |             |            |      |
+| Altra   |             |            |      |
+|         |             |            |      |
+
+#### Image transformations
+
+One way to improve my existing data set is to crop the images in a way that highlights the features that I'm interested in extracting.
+
+Namely cropping the images of shoes so that the logo is the most prominent aspect of the image helps clearly define the features that need to be recognized in the images.
+
+The following image provides an example- the original image from Instagram contains 3 samples of the Nike logo.  By training on the original image as well as the 2 cropped versions of just the logo increases the number of training images as well as our models' ability to differentiate the Nike logo in images.
+
+![NikeCropping](NikeCropping.jpg)
+
+#### 2nd data set
+
+Altra - 481 images (240 full size and 241 crops)
+Nike - 608 images (260 full size and 348 cropped images)
+Neither - 453 images
+
+Similar transformation were applied to this data set for cropping images.
+
 In this section, you will be expected to analyze the data you are using for the problem. This data can either be in the form of a dataset (or datasets), input data (or input files), or even an environment. The type of data should be thoroughly described and, if possible, have basic statistics and information presented (such as discussion of input features or defining characteristics about the input or environment). Any abnormalities or interesting qualities about the data that may need to be addressed have been identified (such as features that need to be transformed or the possibility of outliers). Questions to ask yourself when writing this section:
 - _If a dataset is present for this problem, have you thoroughly discussed certain features about the dataset? Has a data sample been provided to the reader?_
 - _If a dataset is present for this problem, are statistics about the dataset calculated and reported? Have any relevant results from this calculation been discussed?_
@@ -115,6 +174,8 @@ In this section, you will need to discuss the algorithms and techniques you inte
 - _Are the algorithms you will use, including any default variables/parameters in the project clearly defined?_
 - _Are the techniques to be used thoroughly discussed and justified?_
 - _Is it made clear how the input data or datasets will be handled by the algorithms and techniques chosen?_
+
+![InceptionGraph](InceptionGraph.png)
 
 ### Benchmark
 In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:
@@ -180,7 +241,12 @@ In this section, you will summarize the entire end-to-end problem solution and d
 ### Improvement
 In this section, you will need to provide discussion as to how one aspect of the implementation you designed could be improved. As an example, consider ways your implementation can be made more general, and what would need to be modified. You do not need to make this improvement, but the potential solutions resulting from these changes are considered and compared/contrasted to your current solution. Questions to ask yourself when writing this section:
 - _Are there further improvements that could be made on the algorithms or techniques you used in this project?_
+* implement a web based interface to this model.  Bonus point if you could provide additional information in the even an image was mis-classified.  Remotely using the model would be beneficial in lieu of downloading my Python code and running locally.  Additionally, a web based implementation could be extended to mobile devices as well, negating the need for a mobile based version.
+* TensorFlow can be run on a mobile device, extending this work to an iOS or Android device would allow the model to be run remotely.
+* Comparing my results to a baseline, such as [PCANet](http://arxiv.org/abs/1404.3606) would be a good gut check of my results.
 - _Were there algorithms or techniques you researched that you did not know how to implement, but would consider using if you knew how?_
+* The process of removing and re-architecting the VGG16 architecture in Keras became unwieldy.
+* Visualizing the outputs/ weights of different levels within the CNN
 - _If you used your final solution as the new benchmark, do you think an even better solution exists?_
 
 -----------
