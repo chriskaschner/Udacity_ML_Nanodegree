@@ -1,14 +1,14 @@
 # Capstone Project
 ## Machine Learning Engineer Nanodegree
 Chris Kaschner
-2016-08-1
+2016-08-2
 
 ## I. Definition
 _(approx. 1-2 pages)_
 
 ### Project Overview
 
-There is significantt value in a brand/ company/ organization being able to understand when and where it's products and services are being mentioned or discussed online.  Because of the popularity of services such as Instagram, Facebook, and Snapchat millions of photos [###todo factcheck and reference] are being uploaded on a daily bases to the internet.  Typically [###todo reference] these images are understood only as the text that is used to summarize/ comment on their contents, the image contents have, until recently, been of very little importance to what is understood about the post/ tweet/ message.  Instead only the tags or comments used to describe the image have informed other users or companies what is being displayed in an image.  
+There is significant value in a brand/ company/ organization being able to understand when and where it's products and services are being mentioned or discussed online.  Because of the popularity of services such as Instagram, Facebook, and Snapchat millions of photos [###todo factcheck and reference] are being uploaded on a daily bases to the internet.  Typically [###todo reference] these images are understood only as the text that is used to summarize/ comment on their contents, the image contents have, until recently, been of very little importance to what is understood about the post/ tweet/ message.  Instead only the tags or comments used to describe the image have informed other users or companies what is being displayed in an image.  
 
 Companies already offer this type of structured data for text/ websites/ forum posts, https://www.diffbot.com/use-cases/#
 
@@ -34,8 +34,6 @@ IN order to solve this problem I undertake the following:
 4. Replace final layers with ones that suit my needs, in this case 3 classes
 5. Retrain the network on images that I provide
 6. Measure performance and vary hyper parameters seeking to maximize the models performance
-7. ...
-8. Profit
 
 The first building block used in my solution was a convolutional neural network and deep learning.
 
@@ -62,6 +60,8 @@ The Inception architecture [first appeared in a model called "GoogLeNet"](https:
 Tools used to create neural networks
 
 > [Keras](https://github.com/fchollet/keras) is a minimalist, highly modular neural networks library, written in Python and capable of running on top of eitherTensorFlow or Theano. It was developed with a focus on enabling fast experimentation. Being able to go from idea to result with the least possible delay is key to doing good research.
+
+and
 
 > [TensorFlow](https://github.com/tensorflow/tensorflow) is an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) that flow between them. This flexible architecture lets you deploy computation to one or more CPUs or GPUs in a desktop, server, or mobile device without rewriting code. TensorFlow also includes TensorBoard, a data visualization toolkit.
 TensorFlow was originally developed by researchers and engineers working on the Google Brain team within Google's Machine Intelligence research organization for the purposes of conducting machine learning and deep neural networks research
@@ -94,22 +94,25 @@ My intended solution to this problem will be as follows:
 
 ### Metrics
 
-I intend to use the accuracy of my model as the primary metric.  The accuracy comes in a few different forms.
-
-In general it is the percentage of how many images the network correctly identified.  However, there are 3 different measures of the models' accuracy- training, validation, and test.
+I intend to use the accuracy of my model as the primary metric.  The accuracy comes in a few different forms.  In general it is the percentage of how many images the network correctly identified.  However, there are 3 different measures of the models' accuracy- training, validation, and test.
 
 Overfitting, a model's "over-learning" of features in the training set.
 
-![overfitting](Run04/Run04-Accuracy.png "an example of overfitting")
+![overfit-accuracy](Run 04/Run04-Accuracy.png "an example of overfitting")
+![overfit-crossentropy](Run 04/Run04-CrossEntropy.png)
 
 To reduce and mitigate overfitting, we split our images into 3 categories.
 1. Training Data - 80% of the images are used for the model to learn
 2. Validation Data - 10% of the images are used for periodic "checking" of our model during training
 3. Test Data - 10% of the images are used to predict real world results of our model against images it has never seen.
 
+Training and Validation information can be viewed during training runs and I will provide graphs of all of the Training and Validation Accuracy and Cross Entropy information.
+
 [###todo get test results for all of my TF runs]
 
 Cross entropy is another metric that I will use to quantify and understand a model's performance, as well as its progress during training.
+
+[###todo better academic description of cross entropy]
 
 ![cross_entropy](crossentropy_summary.png)
 
@@ -125,7 +128,16 @@ _(approx. 2-4 pages)_
 
 ### Data Exploration
 
-2 datasets were used for this.
+2 datasets were used for this.  The majority of the images were downloaded from Instagram and represent the typical input image that could be expected from a direct feed of images flowing into Instagram at any given time.  Tags were used to search for the Altra & Nike images.  An example search and results can [be seen here](https://www.instagram.com/explore/tags/altra/).
+
+#### An example Nike image
+![NikeExample](NikeExample.jpg)
+
+#### An example Altra image
+![AltraExample](AltraExample.jpg)
+
+
+Not all of the input images are square and their size varies.  To supplement my data set, as well as test my models' performance on perturbations in input image shape, approximately 10% of the images are from alternative sources such as Pinboard, Facebook, or Google Image Search.
 
 #### First data set
 
@@ -147,7 +159,7 @@ Namely cropping the images of shoes so that the logo is the most prominent aspec
 
 The following image provides an example- the original image from Instagram contains 3 samples of the Nike logo.  By training on the original image as well as the 2 cropped versions of just the logo increases the number of training images as well as our models' ability to differentiate the Nike logo in images.
 
-![NikeCropping](NikeCropping.jpg)
+![NikeCrop](NikeCropping.jpg)
 
 #### 2nd data set
 
@@ -155,13 +167,22 @@ Altra - 481 images (240 full size and 241 crops)
 Nike - 608 images (260 full size and 348 cropped images)
 Neither - 453 images
 
-Similar transformation were applied to this data set for cropping images.
+Similar transformation were applied to this data set for cropping images. They were applied to both the Altra and Nike data sets.
 
-In this section, you will be expected to analyze the data you are using for the problem. This data can either be in the form of a dataset (or datasets), input data (or input files), or even an environment. The type of data should be thoroughly described and, if possible, have basic statistics and information presented (such as discussion of input features or defining characteristics about the input or environment). Any abnormalities or interesting qualities about the data that may need to be addressed have been identified (such as features that need to be transformed or the possibility of outliers). Questions to ask yourself when writing this section:
+The 'neither' category of images is comprised of downloading the bulk "firehose" of images from Instagram.
+
+### Examples of difficult images
+There are images that are difficult to extract information.
+
+Multiple shoes in one images
+Multiple brands
+[###todo add images here]
+
+*In this section, you will be expected to analyze the data you are using for the problem. This data can either be in the form of a dataset (or datasets), input data (or input files), or even an environment. The type of data should be thoroughly described and, if possible, have basic statistics and information presented (such as discussion of input features or defining characteristics about the input or environment). Any abnormalities or interesting qualities about the data that may need to be addressed have been identified (such as features that need to be transformed or the possibility of outliers). Questions to ask yourself when writing this section:
 - _If a dataset is present for this problem, have you thoroughly discussed certain features about the dataset? Has a data sample been provided to the reader?_
 - _If a dataset is present for this problem, are statistics about the dataset calculated and reported? Have any relevant results from this calculation been discussed?_
 - _If a dataset is **not** present for this problem, has discussion been made about the input space or input data for your problem?_
-- _Are there any abnormalities or characteristics about the input space or dataset that need to be addressed? (categorical variables, missing values, outliers, etc.)_
+- _Are there any abnormalities or characteristics about the input space or dataset that need to be addressed? (categorical variables, missing values, outliers, etc.)_*
 
 ### Exploratory Visualization
 In this section, you will need to provide some form of visualization that summarizes or extracts a relevant characteristic or feature about the data. The visualization should adequately support the data being used. Discuss why this visualization was chosen and how it is relevant. Questions to ask yourself when writing this section:
