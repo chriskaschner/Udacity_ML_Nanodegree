@@ -439,41 +439,7 @@ Our final model has the following form
 
 [###todo Need to re-copy output graph to update these once you settle on a model]
 
-![](AltraDifficult01.jpg)
-
-neither (score = 0.99816)
-nike (score = 0.00158)
-altra (score = 0.00025)
-
-![](AltraOccluded.jpg)
-
-neither (score = 0.98079)
-altra (score = 0.01201)
-nike (score = 0.00720)
-
-![](NikeMorphedCrop.jpg)
-
-nike (score = 0.56717)
-neither (score = 0.42952)
-altra (score = 0.00331)
-
-![](NikeDifficult01.jpg)
-
-neither (score = 0.87823)
-nike (score = 0.10636)
-altra (score = 0.01541)
-
-![](NikeAltra.jpg)
-
-neither (score = 0.97332)
-altra (score = 0.02171)
-nike (score = 0.00497)
-
-![](Neither.jpg)
-
-neither (score = 0.85841)
-nike (score = 0.13508)
-altra (score = 0.00651)
+![](PictureGrid03.png)
 
 In this section, your model’s final solution and its results should be compared to the benchmark you established earlier in the project using some type of statistical analysis. You should also justify whether these results and the solution are significant enough to have solved the problem posed in the project. Questions to ask yourself when writing this section:
 - _Are the final results found stronger than the benchmark result reported earlier?_
