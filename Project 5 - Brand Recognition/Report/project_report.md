@@ -70,7 +70,11 @@ Overfitting occurs when a model is describing randomness and/ or noise in a data
 
 In the above chart, the blue line represents an overly complex polynomial function that perfectly describes a linear relationship between the points.
 
-A reduction in model complexity, cross-validation, and regularization are all methods to reduce overfitting.
+To reduce and mitigate overfitting, we split our images into 3 categories.
+
+1. Training Data - 80% of the images are used for the model to learn from
+2. Validation Data - 10% of the images are used for periodic "checking" of our model during training
+3. Test Data - 10% of the images are used only once to predict real world results of our model against images it has never seen.
 
 By using these 2 metrics we'll be able to quantify how well our model is performing via the accuracy but also how well the model is *learning* via the cross entropy.
 
@@ -114,23 +118,83 @@ Within the dataset there are a number of images that are difficult to classify. 
 
 ### Algorithms and Techniques
 
-[### todo fix this so it doesn't suck]
-1. CNN
-1. Existing Network
-1. Transfer learning
-1. Retraining
+"No one teaches a [child how to see](http://www.ted.com/talks/fei_fei_li_how_we_re_teaching_computers_to_understand_pictures)" and in a similar way, instead of defining algorithms to explicitly define every permutation of logo that we would potentially see, neural networks allow us to feed training images to a model and allow it to define for itself what features are critical to classifying our images.
 
-#### CNNs and you, "No one teaches a [child how to see](http://www.ted.com/talks/fei_fei_li_how_we_re_teaching_computers_to_understand_pictures)"
+[Convolutional neural networks](http://deeplearning.net/tutorial/lenet.html) are a subtype of [neural network](http://neuralnetworksanddeeplearning.com) that are [extremely effective]((http://bits.blogs.nytimes.com/2014/08/18/computer-eyesight-gets-a-lot-more-accurate/) at image classification.
 
-Instead of defining algorithms to explicitly define every permutation of logo that we would potentially see, machine learning and neural networks allow us to feed training images to a and allow it to define for itself what the critical features are.  
+They approach, or occasionally exceed, [human performance](http://karpathy.github.io/2014/09/02/what-i-learned-from-competing-against-a-convnet-on-imagenet/) on similar benchmarks.
 
-There's clearly a lot of information here to be learned and a variety of resources, [this is a good place](http://neuralnetworksanddeeplearning.com) to start.
+The method I used to approach this problem utilized the significant work that large companies and research institutions have invested into this problem in the form of reusable networks and architectures.  Instead of creating a CNN from scratch I was able to select a suitable network from a number of freely available options and for my project I have selected 2 different networks: VGG16 and Inception v3.
 
-Convolutional neural networks are a subtype of neural network and have been shown to be effective at image classification.
+##### VGG16
 
-ILSVR or ImageNet are both examples where CNNs achieve great performance and their [performance continues improving](http://bits.blogs.nytimes.com/2014/08/18/computer-eyesight-gets-a-lot-more-accurate/).
+The VGG model was created by the Visual Geometry Group (VGG) at Oxford University and was [first described in 2015](http://arxiv.org/pdf/1409.1556.pdf). Although there are multiple versions the one used in this work is 16-layers.
 
-They approach, or occasionally exceed, [human performance](http://karpathy.github.io/2014/09/02/what-i-learned-from-competing-against-a-convnet-on-imagenet/) on similar benchmarks.  
+##### Inception
+The Inception architecture [first appeared in a model called "GoogLeNet"](https://arxiv.org/abs/1409.4842) in 2014.  Version 3 [was described](http://arxiv.org/pdf/1512.00567v3.pdf) in 2015 and is the model used in this work.
+
+#### Transfer Learning & Pre-trained networks
+
+Training a large and complex CNN is a nontrivial task.  For example, training the Inception v3 network which [has over 27 million parameters]((http://blog.kubernetes.io/2016/03/scaling-neural-network-image-classification-using-Kubernetes-with-TensorFlow-Serving.html), would take approximately 2 weeks to train on $50k worth of computer hardware and would need several *million* images.  
+
+##### Inception v3 network
+![Inception](inception_v3_architecture.png)
+
+By using [transfer learning](https://papers.nips.cc/paper/5347-how-transferable-are-features-in-deep-neural-networks.pdf) a model that was created at Google and trained on their enormous image library can be used for our image classification task of ~500 images total.  This technique relies on the inherent ability of neural networks that have been trained on one classification task to [be effective]((http://www.kdnuggets.com/2015/08/recycling-deep-learning-representations-transfer-ml.html)) at recognizing features in new tasks.
+
+Replacing the final layer of a previously trained network and replacing it with our preferred classifications allows us to leverage the power of a network that may have been trained for weeks on an array of high-powered GPUs and retraining it in a few minutes for our task.
+
+<!-- The ability to distinguish edges in images is universally applicable to classification tasks.
+
+Layers of Inception- Pooling, 2D Convolution, etc.
+1. Pooling layers look like this [###todo add more layer info]
+2. Conv2D layers look like this
+
+[###todo image of first few layers of a CNN] -->
+
+1. Identify a suitable framework or library to build a pre-trained network
+
+    There are a number of different options for building and and loading existing network architectures. [Caffe](http://caffe.berkeleyvision.org/), [Keras](https://github.com/fchollet/keras), and [TensorFlow](https://github.com/tensorflow/tensorflow) are all excellent options.
+
+    For the purpose of my project I limited my choices to Keras & TensorFlow.  Their descriptions from their developers are provided below:
+    #### Keras
+    > [Keras](https://github.com/fchollet/keras) is a minimalist, highly modular neural networks library, written in Python and capable of running on top of either TensorFlow or Theano. It was developed with a focus on enabling fast experimentation. Being able to go from idea to result with the least possible delay is key to doing good research.
+
+    #### TensorFlow
+    > [TensorFlow](https://github.com/tensorflow/tensorflow) is an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) that flow between them. This flexible architecture lets you deploy computation to one or more CPUs or GPUs in a desktop, server, or mobile device without rewriting code. TensorFlow also includes TensorBoard, a data visualization toolkit.
+    TensorFlow was originally developed by researchers and engineers working on the Google Brain team within Google's Machine Intelligence research organization for the purposes of conducting machine learning and deep neural networks research
+
+2. Construct an existing network
+
+    Keras provides [a tutorial](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html) on loading and utilizing the VGG16 architecture.
+
+    TensorFlow [provides instructions](https://www.tensorflow.org/versions/master/how_tos/image_retraining/index.html)  for the reuse of the Inception v3 network.
+
+3. Load pre-trained weights into the previously built network
+
+    The weights that effectively "remember" the training of a neural network are loaded.  In some cases these weight files can be quite large.  For the VGG16 model [the weight file](https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3) topped 550 mb
+
+4. Modify the pre-existing model for our classification tasks
+
+  Remove the original model's top layers and replace with ones suitable to perform our classification tasks.
+
+5. Update the bottlenecks
+
+  The penultimate layers of the model that perform the actual classification.
+
+6. Retrain the network on my images of interest
+
+  I investigate 2 options- binary classification or a closed world problem where images of only Nike or Altra shoes are expected and and open world multiclass classification of images that could be of Nike or Altra shoes or some third category I've cleverly titled 'Neither'.
+
+7. Evaluate model performance
+
+  Using training, validation, and testing values for accuracy and cross-entropy
+
+8. Optimize hyperparameters and compare performance
+
+
+9. Select the optimum solution
+
 <!-- The first building block used in my solution was a neural network and deep learning.
 
 [###todo] Explanation of a network
@@ -160,106 +224,8 @@ Breaking it down: [###todo - images of each section of the graph]
 5. Softmax
 6. Output layers -->
 
-#### Existing networks
-
-In the case of the inception v3 network would take about 2 weeks to train on 8x GPUs (~$3k Nvidia K40s).  Once trained the model and associated weights can be transferred to a smaller/ less expensive computer (in this case a MacbookPro) and used to classify images.  The [Inception-v3 model](http://blog.kubernetes.io/2016/03/scaling-neural-network-image-classification-using-Kubernetes-with-TensorFlow-Serving.html) has over 27 million parameters and runs 5.7 billion floating point operations per inference
-
-This approach allows us to "leverage" the resources/ computing power/ model complexity available to Google but used in our local environment.
-
-The method I used to approach this problem utilized the significant work that large companies and research institutions have invested into this problem.  I used 2 different networks to attempt this, VGG16 and Inception v3.
-
-The VGG model was created by the Visual Geometry Group (VGG) at Oxford University and was [first described in 2015](http://arxiv.org/pdf/1409.1556.pdf). Although there are multiple versions in , the one used in this work is 16-layers.
-
-The Inception architecture [first appeared in a model called "GoogLeNet"](https://arxiv.org/abs/1409.4842) in 2014.  Version 3 [was described](http://arxiv.org/pdf/1512.00567v3.pdf) in 2015 and is the model used in this work.
-
-#### Transfer Learning Pre-trained networks
-
-Of particular interest to this project is [transfer learning](https://papers.nips.cc/paper/5347-how-transferable-are-features-in-deep-neural-networks.pdf).
-
-Transfer learning is the ability to train a neural network in one scenario, say at Google in Mountain View, and then downloading the model and its associated weights to be reused in a different location/ time such as Austin, TX.
-
-Additionally, pre-trained networks can be used.  They have the ability to distinguish important features in images [despite being trained](http://www.kdnuggets.com/2015/08/recycling-deep-learning-representations-transfer-ml.html) on images that differ from the images that will be used in our implementation of the network.
-
-<!-- The ability to distinguish edges in images is universally applicable to classification tasks.
-
-Layers of Inception- Pooling, 2D Convolution, etc.
-1. Pooling layers look like this [###todo add more layer info]
-2. Conv2D layers look like this
-
-[###todo image of first few layers of a CNN] -->
-
-Replacing the final layer of a network and replacing it with our preferred classifications allows us to leverage the power of a network that may have been trained for weeks on an array of high-powered GPUs and retraining it in a few minutes for our task.
-
-This is what the Inception v3 network looks like:
-![Inception](inception_v3_architecture.png)
-1. Identify a suitable framework or library to build a pre-trained network
-
-    There are a number of different options for building and and loading existing network architectures. [Caffe](http://caffe.berkeleyvision.org/), [Keras](https://github.com/fchollet/keras), and [TensorFlow](https://github.com/tensorflow/tensorflow) are all excellent options.
-
-    For the purpose of my project I limited my choices to Keras & TensorFlow.  Their descriptions from their developers are provided below:
-    #### Keras
-    > [Keras](https://github.com/fchollet/keras) is a minimalist, highly modular neural networks library, written in Python and capable of running on top of either TensorFlow or Theano. It was developed with a focus on enabling fast experimentation. Being able to go from idea to result with the least possible delay is key to doing good research.
-
-    #### TensorFlow
-    > [TensorFlow](https://github.com/tensorflow/tensorflow) is an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) that flow between them. This flexible architecture lets you deploy computation to one or more CPUs or GPUs in a desktop, server, or mobile device without rewriting code. TensorFlow also includes TensorBoard, a data visualization toolkit.
-    TensorFlow was originally developed by researchers and engineers working on the Google Brain team within Google's Machine Intelligence research organization for the purposes of conducting machine learning and deep neural networks research
-
-2. Construct an existing network
-
-    Keras provides [a tutorial](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html) on loading and utilizing the VGG16 architecture.
-
-    TensorFlow [provides instructions](https://www.tensorflow.org/versions/master/how_tos/image_retraining/index.html)  for the reuse of the Inception v3 network.
-
-3. Load pre-trained weights into the previously built network
-
-    The weights that effectively "remember" the training of a neural network are loaded.  In some cases these weight files can be quite large.  For the VGG16 model [the weight file](https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3) topped 550 mb
-
-4. Modify the pre-existing model for our classification tasks
-
-  Remove the original model's top layers and replace with ones suitable to perform our classification tasks.
-
-5. Update the bottlenecks
-
-  the penultimate layers of the model that perform the actual classification.
-
-6. Retrain the network on my images of interest
-
-  I investigate 2 options- binary classification or a closed world problem where images of only Nike or Altra shoes are expected and and open world multiclass classification of images that could be of Nike or Altra shoes or some third category I've cleverly titled 'Neither'.
-
-7. Evaluate model performance
-
-  Using training, validation, and testing values for accuracy and cross-entropy
-
-8. Optimize hyperparameters and compare performance
 
 
-9. Select the optimum solution
-
-1. download existing pre-trained model and weights  [Keras](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html) and [TensorFlow](https://www.tensorflow.org/versions/master/how_tos/image_retraining/index.html) both offer frameworks for creating the CNNs used, transferring weights, and popping layers to retrain.
-3. remove/pop the final layers that are used to classify ImageNet images (1000 classes)
-4. Replace final layers with ones that suit my needs, in this case 3 classes
-5. Retrain the network on images that I provide
-6. Measure performance and vary hyperparameters seeking to maximize the models performance
-
-
-
-
-
-#### Splitting Data into Training, Validation, and Test sets
-
-
-To reduce and mitigate overfitting, we split our images into 3 categories.
-1. Training Data - 80% of the images are used for the model to learn from
-2. Validation Data - 10% of the images are used for periodic "checking" of our model during training
-3. Test Data - 10% of the images are used only once to predict real world results of our model against images it has never seen.
-
-Training and Validation information can be viewed during training runs via the TensorBoard application and are shown throughout this report.  The test accuracy is reported as a single percentage datapoint at the conclusion of a successful training run of the model.
-
-Overfitting, a model's "over-learning" of features in the training set.
-
-![overfit-accuracy](Run 04/Run04-Accuracy.png "an example of overfitting")
-
-![overfit-crossentropy](Run 04/Run04-CrossEntropy.png)
 
 <!-- In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
 - _Are the algorithms you will use, including any default variables/parameters in the project clearly defined?_
