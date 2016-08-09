@@ -1,0 +1,5 @@
+.DS_Store
+TensorFlow/
+*.h5
+*.pb
+*.local

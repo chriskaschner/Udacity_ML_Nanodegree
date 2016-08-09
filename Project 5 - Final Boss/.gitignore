@@ -1,8 +1,0 @@
-.DS_Store
-TensorFlow/
-*.h5
-convnets-keras/
-data/
-data2/
-data3/
-*.pb
