@@ -144,23 +144,17 @@ By using [transfer learning](https://papers.nips.cc/paper/5347-how-transferable-
 
 Replacing the final layer of a previously trained network and replacing it with our preferred classifications allows us to leverage the power of a network that may have been trained for weeks on an array of high-powered GPUs and retraining it in a few minutes for our task.
 
-<!-- The ability to distinguish edges in images is universally applicable to classification tasks.
-
-Layers of Inception- Pooling, 2D Convolution, etc.
-1. Pooling layers look like this [###todo add more layer info]
-2. Conv2D layers look like this
-
-[###todo image of first few layers of a CNN] -->
+##### Process to implement
 
 1. Identify a suitable framework or library to build a pre-trained network
 
     There are a number of different options for building and and loading existing network architectures. [Caffe](http://caffe.berkeleyvision.org/), [Keras](https://github.com/fchollet/keras), and [TensorFlow](https://github.com/tensorflow/tensorflow) are all excellent options.
 
     For the purpose of my project I limited my choices to Keras & TensorFlow.  Their descriptions from their developers are provided below:
-    #### Keras
+    ##### Keras
     > [Keras](https://github.com/fchollet/keras) is a minimalist, highly modular neural networks library, written in Python and capable of running on top of either TensorFlow or Theano. It was developed with a focus on enabling fast experimentation. Being able to go from idea to result with the least possible delay is key to doing good research.
 
-    #### TensorFlow
+    ##### TensorFlow
     > [TensorFlow](https://github.com/tensorflow/tensorflow) is an open source software library for numerical computation using data flow graphs. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) that flow between them. This flexible architecture lets you deploy computation to one or more CPUs or GPUs in a desktop, server, or mobile device without rewriting code. TensorFlow also includes TensorBoard, a data visualization toolkit.
     TensorFlow was originally developed by researchers and engineers working on the Google Brain team within Google's Machine Intelligence research organization for the purposes of conducting machine learning and deep neural networks research
 
@@ -195,44 +189,13 @@ Layers of Inception- Pooling, 2D Convolution, etc.
 
 9. Select the optimum solution
 
-<!-- The first building block used in my solution was a neural network and deep learning.
-
-[###todo] Explanation of a network
-![SimpleNetwork](SimpleNetwork.png)
-
-Convolutional neural networks are at the heart of these models. A way to reduce the dimensionality of the mathematics/ reduce computational complexity.  Likely to have overfitting in convolved features.  Pooling/ aggregating over a convolved feature, depends on mean/ max pooling
-
-image layer -> convolved feature layer ->
-
-Explanation of a perceptron [###todo]
-
-Basic unit of a neural network is a neuron like node.  It takes inputs and uses them along with weights to determine whether to "fire" its output or not.
-![Perceptron](Perceptron.png)
-
-![Weights](Weights.png)
-
-Layers - > input, hidden, output layers -->
-<!--
-[###todo images that are difficult for humans to differentiate but computers get correct]
-
-Breaking it down: [###todo - images of each section of the graph]
-1. Input layers - decoding, resizing, flattening, etc to prepare images for the network
-1.  Decode the jpeg file, resize to a standardized size/ shape of 299x299x3 representing 299 pixels wide by 299 pixels tall by 3 layers (red, green, blue) deep
-2. Convolutional layer
-3. Pooling layer
-4. Mixed layer
-5. Softmax
-6. Output layers -->
-
-
-
-
 <!-- In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
 - _Are the algorithms you will use, including any default variables/parameters in the project clearly defined?_
 - _Are the techniques to be used thoroughly discussed and justified?_
 - _Is it made clear how the input data or datasets will be handled by the algorithms and techniques chosen?_ -->
 
 #### Exploratory Visualization
+
 It is important to remember that computers do not "see" images in the same way as humans.  One way to help us to understand how a CNN is "viewing" an image is to visualize the inputs that would maximize different layers of our network.  Using the VGG16 model and [the process described here](https://blog.keras.io/how-convolutional-neural-networks-see-the-world.html) we can see what a neural network would characterize as an ideal input.
 
 ##### From the first convolutional layer:
@@ -278,7 +241,7 @@ The following image provides an example- the original image contains 3 samples o
 
 ![NikeCrop](NikeCrop.png "An Example of Image Cropping")
 
-Adobe Lightroom was used to load, crop, and export images in both the Altra and Nike categories.  The resulting images can be seen in the second dataset.
+Adobe Lightroom was used to load, crop, and export images in both the Altra and Nike categories.  The resulting images were used to supplement both datasets.
 
 #### Model Level
 The model itself handles data preprocessing steps including:
@@ -394,7 +357,7 @@ We can also compare cross-entropy between models
 |Top  Results|
 |----|-----|------|------|------|------|------|
 |  Run #  |Test Accuracy| Iterations |Learning Rate (η) |Data Set| Classification | Optimizer |
-| 20      |   88.6%     |     8,000  |  0.001       |  Second| Multiclass     | Adagrad (0.01)  |
+| 6       |   97.4%     |     8,000  |  0.001       |  First | Binary         | SGD       |
 
 #### Top Results Multiclass
 |Top  Results|
@@ -402,8 +365,6 @@ We can also compare cross-entropy between models
 |  Run #  |Test Accuracy| Iterations |Learning Rate (η) |Data Set| Classification | Optimizer |
 | 20      |   88.6%     |     8,000  |  0.001       |  Second| Multiclass     | Adagrad (0.01)  |
 
-Here are the graphs of its performance compared to the previous top-runners.
-<!-- [###todo graph of *the* best model] -->
 
 #### Revisiting Difficult Photos
 
@@ -429,6 +390,8 @@ Despite improvements to our model, we can see from the below that there remains 
 We started with a discussion of how being able to identify problems with your products would permit a company to contact and resolve issues for customers.  So how does our model perform on images of shoes that may require intervention?
 
 ![BadShoes](PictureGrid04.png)
+
+From these results I would say that the model does a good job identifying the brands in the above photos and would provide the ability to find a customers image without any other information.
 
 <!-- In this section, you will need to provide some form of visualization that emphasizes an important quality about the project. It is much more free-form, but should reasonably support a significant result or characteristic about the problem that you want to discuss. Questions to ask yourself when writing this section:
 - _Have you visualized a relevant or important quality about the problem, dataset, input data, or results?_
@@ -456,36 +419,30 @@ There were a number of new, and now that they have been solved, interesting prob
 
 Machine learning is unique in that the work that is being done at its highest levels- like that be performed at Google or research institutions can has been released for public use.  What other field allows for the almost immediate implementation of cutting/ bleeding edge technologies by a new practitioner?  The idea of [democratizing](https://blog.keras.io/on-the-importance-of-democratizing-artificial-intelligence.html) artificial intelligence is a call to action to its practitioners.
 
-Applying what I have learned to a real world dataset proved immensely empowering and rewarding.  Being able to use my coureswork on things found "out in the wild" was a powerful way to implement things that I had studied on an actual problem and not just a "toy" dataset.
+Applying what I have learned to a real world dataset proved immensely empowering and rewarding.  Being able to use my coursework on things found "out in the wild" was a powerful way to implement things that I had studied on an actual problem and not just a "toy" dataset.
 
 TensorFlow & Keras are both popular tools in the machine learning community right now and I'm glad I got the opportunity to apply them to a project and gain a better understanding of them.
 
 #### Difficulties
 
-TensorFlow  and Keras were both new resources for me to work with, and both provided great functionality once I was able to learn and implement their features.  Unfortunately they are not without a learning curve and in some cases bugs.  Why a retrained network Tracking down and understanding why TensorBoard would not display some of my logged training runs turned out to be an [interesting issue](https://github.com/tensorflow/tensorflow/issues/1587) with how paths are specified.  
+TensorFlow  and Keras were both new resources for me to work with, and both provided great functionality once I was able to learn and implement their features.  Unfortunately they are not without a learning curve and in some cases bugs.  Tracking down and understanding why TensorBoard would not display some of my logged training runs turned out to be an [interesting issue](https://github.com/tensorflow/tensorflow/issues/1587) with how paths are specified.  
 
-Visualizing neural networks proved to be one of the more difficult aspect of the project.  There are a number of ways to
-Attempting to build Caffe for its abilities to create visualizations of different layers of a network was quite difficult.  There are a number of dependencies and local customizations needed.  While I will continue to sort through them, they ultimately proved too time consuming to utilize in this project.
+Visualizing neural networks proved to be one of the more difficult aspect of the project.  Attempting to build Caffe for its abilities to create visualizations of different layers of a network was quite difficult.  There are a number of dependencies and local customizations needed.  While I will continue to sort through them, they ultimately proved too time consuming to utilize in this project.  Fortunately the Keras documentation is excellent and provided an alternative method for visualizations.
 
 #### expectations
-My final model performs better than I expected.  The accuracy of predictions
+My final model performs better than I expected.  The accuracy of predictions was nearly 90% for multiclass classification which was beyond my expectation.  Especially in light of the relatively small dataset provided for training.  ~90% accuracy with ~500 images across 3 classes is an excellent result.
 
-In this section, you will summarize the entire end-to-end problem solution and discuss one or two particular aspects of the project you found interesting or difficult. You are expected to reflect on the project as a whole to show that you have a firm understanding of the entire process employed in your work. Questions to ask yourself when writing this section:
+<!-- In this section, you will summarize the entire end-to-end problem solution and discuss one or two particular aspects of the project you found interesting or difficult. You are expected to reflect on the project as a whole to show that you have a firm understanding of the entire process employed in your work. Questions to ask yourself when writing this section:
 - _Have you thoroughly summarized the entire process you used for this project?_
 - _Were there any interesting aspects of the project?_
 - _Were there any difficult aspects of the project?_
-- _Does the final model and solution fit your expectations for the problem, and should it be used in a general setting to solve these types of problems?_
+- _Does the final model and solution fit your expectations for the problem, and should it be used in a general setting to solve these types of problems?_ -->
 
 ### Improvement
 
 * implement a web based interface to this model.  Bonus point if you could provide additional information in the event an image was mis-classified.  Remotely using the model would be beneficial in lieu of downloading my Python code and running locally.  Additionally, a web based implementation could be extended to mobile devices as well, negating the need for a mobile based version.
 * TensorFlow can be run on a mobile device, extending this work to an iOS or Android device would allow the model to be run remotely.
 * Comparing my results to another baseline, such as [PCANet](http://arxiv.org/abs/1404.3606) would be a good gut check of my results.
-- _Were there algorithms or techniques you researched that you did not know how to implement, but would consider using if you knew how?_
-* The process of removing and re-architecting the VGG16 architecture in Keras became unwieldy.
-* Visualizing the outputs/ weights of different levels within the CNN
-  * [like this](http://www.pyimagesearch.com/2015/08/03/deep-dream-visualizing-every-layer-of-googlenet/)
-  * [or this](https://github.com/jcjohnson/cnn-vis)
 * Deeper [sensitivity analysis](https://beckmw.wordpress.com/2013/10/07/sensitivity-analysis-for-neural-networks/)
 * The network could always be improved by adding additional training images.
 
