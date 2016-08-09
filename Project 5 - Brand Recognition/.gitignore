@@ -3,3 +3,4 @@ TensorFlow/
 *.h5
 *.pb
 *.local
+.ipynb_checkpoints/
