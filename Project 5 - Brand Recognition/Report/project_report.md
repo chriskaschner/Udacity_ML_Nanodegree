@@ -11,7 +11,7 @@ An [estimated 2 trillion photos](http://ben-evans.com/benedictevans/2015/8/19/ho
 
 Is there a way to be able to identify the objects in an image to be able to know what brands are present in an image?  This type of structured data is already [available for text](https://www.diffbot.com/) but what about images?  What if a customer had an issue and posted an image without your company name in the text description?  How would you could you identify and find such images?
 
-In this project I create a Convolutional Neural Network (CNN) that is capable of identifying brands in untagged/ unlabeled photos from a social media feed.  The model I use implements a [previously trained]https://github.com/tensorflow/models/tree/master/inception network and [transfer learning] to speed training.  This project was [inspired](https://www.youtube.com/watch?v=0Ho0O1tvcU4) by a [number](https://sightengine.com/) of [different](https://research.googleblog.com/2016/03/train-your-own-image-classifier-with.html) sources.
+In this project I create a Convolutional Neural Network (CNN) that is capable of identifying brands in untagged/ unlabeled photos from a social media feed.  The model I use implements a [previously trained](https://github.com/tensorflow/models/tree/master/inception) network and [transfer learning](https://en.wikipedia.org/wiki/Inductive_transfer) to speed training.  This project was [inspired](https://www.youtube.com/watch?v=0Ho0O1tvcU4) by a [number](https://sightengine.com/) of [different](https://research.googleblog.com/2016/03/train-your-own-image-classifier-with.html) sources.
 
 
 <!-- *In this section, look to provide a high-level overview of the project in layman’s terms. Questions to ask yourself when writing this section:
