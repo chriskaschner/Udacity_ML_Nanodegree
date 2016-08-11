@@ -114,7 +114,7 @@ Within the dataset there are a number of images that are difficult to classify. 
 
 "No one teaches a [child how to see](http://www.ted.com/talks/fei_fei_li_how_we_re_teaching_computers_to_understand_pictures)" and in a similar way, instead of defining algorithms to explicitly define every permutation of logo that we would potentially see, neural networks allow us to feed training images to a model and allow it to define for itself what features are critical to classifying our images.
 
-[Convolutional neural networks](http://deeplearning.net/tutorial/lenet.html) are a subtype of [neural network](http://neuralnetworksanddeeplearning.com) that are [extremely effective]((http://bits.blogs.nytimes.com/2014/08/18/computer-eyesight-gets-a-lot-more-accurate/) at image classification.
+[Convolutional neural networks](http://deeplearning.net/tutorial/lenet.html) are a subtype of [neural network](http://neuralnetworksanddeeplearning.com) that are [extremely effective](http://bits.blogs.nytimes.com/2014/08/18/computer-eyesight-gets-a-lot-more-accurate/) at image classification.
 
 They approach, or occasionally exceed, [human performance](http://karpathy.github.io/2014/09/02/what-i-learned-from-competing-against-a-convnet-on-imagenet/) on similar benchmarks.
 
@@ -292,7 +292,7 @@ Our benchmark test accuracy of 87.8% only describes the case of binary classific
    Importantly I also wanted to differentiate between the brands of interest and other shoes/ brands.  I.E. I didn't want to categorize everything as either Nike or Altra, but rather be able to know that an image did not contain one of the logos I was tracking.  To implement, I added a third image category title "neither" comprised of a random selection of images that represented anythings that was not a Nike or Altra item.
 
 ##### Additional images
-  The most straightforaward way to improve results from a neural network is to [increase the amount of data](http://matroid.com/scaledml/slides/jeff.pdf) being used to train that network.  The second dataset was added to increase the number of images in the training pool.
+  The most straightforward way to improve results from a neural network is to [increase the amount of data](http://matroid.com/scaledml/slides/jeff.pdf) being used to train that network.  The second dataset was added to increase the number of images in the training pool.
 
 ##### Hyperparameter Search
   Once my initial network was functioning there are a number of different hyperparamters available that can be varied to potentially improve model performance.  They include:
@@ -316,9 +316,8 @@ Approximately 20 different runs were conducted across a number of different hype
 
 Ranked by test accuracy, here are the top results.
 
-|Top  Results|
-|----|-----|------|------|------|------|------|
 |  Run #  |Test Accuracy| Iterations |Learning Rate (η) |Data Set| Classification | Optimizer |
+|---------|-------------|------------|------------------|--------|----------------|-----------|
 | 6       |   97.4%     |     8,000  |  0.001       |  First | Binary         | SGD       |
 | 2       |   96.8%     |     4,000  |  0.001       |  First | Binary         | SGD       |
 | 20      |   88.6%     |     8,000  |  0.001       |  Second| Multiclass     | Adagrad (0.01)  |
@@ -348,15 +347,17 @@ We can also compare cross-entropy between models
 ### Justification
 
 #### Top Results Binary
-|Top  Results|
-|----|-----|------|------|------|------|------|
+
+
 |  Run #  |Test Accuracy| Iterations |Learning Rate (η) |Data Set| Classification | Optimizer |
+|---------|-------------|------------|------------------|--------|----------------|-----------|
 | 6       |   97.4%     |     8,000  |  0.001       |  First | Binary         | SGD       |
 
 #### Top Results Multiclass
-|Top  Results|
-|----|-----|------|------|------|------|------|
+
+
 |  Run #  |Test Accuracy| Iterations |Learning Rate (η) |Data Set| Classification | Optimizer |
+|---------|-------------|------------|------------------|--------|----------------|-----------|
 | 20      |   88.6%     |     8,000  |  0.001       |  Second| Multiclass     | Adagrad (0.01)  |
 
 
@@ -411,7 +412,7 @@ There were a number of new, and now that they have been solved, interesting prob
 
 #### Interesting
 
-Machine learning is unique in that the work that is being done at its highest levels- like that be performed at Google or research institutions can has been released for public use.  What other field allows for the almost immediate implementation of cutting/ bleeding edge technologies by a new practitioner?  The idea of [democratizing](https://blog.keras.io/on-the-importance-of-democratizing-artificial-intelligence.html) artificial intelligence is a call to action to its practitioners.
+Machine learning is unique in that the work that is being done at its highest levels- like that be performed at Google or research institutions can has been released for public use.  What other field allows for the almost immediate implementation of cutting/ bleeding edge technologies by a newcomer to the field?  The idea of [democratizing](https://blog.keras.io/on-the-importance-of-democratizing-artificial-intelligence.html) artificial intelligence is alive and well amongst its practitioners.
 
 Applying what I have learned to a real world dataset proved immensely empowering and rewarding.  Being able to use my coursework on things found "out in the wild" was a powerful way to implement things that I had studied on an actual problem and not just a "toy" dataset.
 
@@ -423,7 +424,7 @@ TensorFlow  and Keras were both new resources for me to work with, and both prov
 
 Visualizing neural networks proved to be one of the more difficult aspect of the project.  Attempting to build Caffe for its abilities to create visualizations of different layers of a network was quite difficult.  There are a number of dependencies and local customizations needed.  While I will continue to sort through them, they ultimately proved too time consuming to utilize in this project.  Fortunately the Keras documentation is excellent and provided an alternative method for visualizations.
 
-#### expectations
+#### Expectations
 My final model performs better than I expected.  The accuracy of predictions was nearly 90% for multiclass classification which was beyond my expectation.  Especially in light of the relatively small dataset provided for training.  ~90% accuracy with ~500 images across 3 classes is an excellent result.
 
 <!-- In this section, you will summarize the entire end-to-end problem solution and discuss one or two particular aspects of the project you found interesting or difficult. You are expected to reflect on the project as a whole to show that you have a firm understanding of the entire process employed in your work. Questions to ask yourself when writing this section:
