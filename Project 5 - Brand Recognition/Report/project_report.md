@@ -1,6 +1,6 @@
-<!-- # Capstone Project
-## Machine Learning Engineer Nanodegree -->
-Chris Kaschner 2016-08-8
+# Brand Recognition in Instagram Images
+## Machine Learning Engineer Nanodegree
+### Chris Kaschner 2016-08-9
 
 ## I. Definition
 <!-- _(approx. 1-2 pages)_ -->
@@ -9,16 +9,10 @@ Chris Kaschner 2016-08-8
 
 An [estimated 2 trillion photos](http://ben-evans.com/benedictevans/2015/8/19/how-many-pictures) were shared online in 2015, with that number expected to continue to grow.  Lacking efficient methods to examine and identify objects in these images they can only be understood by the text that is used to summarize or tag them and not the actual image content.
 
-Is there a way to be able to identify the objects in an image to be able to know what brands are present in an image?  This type of structured data is already [available for text][available for text] but what about images?  What if a customer had an issue and posted an image without your company name in the text description?  How would you could you identify and find such images?
+Is there a way to be able to identify the objects in an image to be able to know what brands are present in an image?  This type of structured data is already [available for text](https://www.diffbot.com/) but what about images?  What if a customer had an issue and posted an image without your company name in the text description?  How would you could you identify and find such images?
 
-In this project I create a Convolutional Neural Network (CNN) that is capable of identifying brands in untagged/ unlabeled photos from a social media feed.  The model I use implements a [previously trained][previously trained] network and [transfer learning] to speed training.  This project was [inspired][inspired] by a [number][number] of [different][different] sources.
+In this project I create a Convolutional Neural Network (CNN) that is capable of identifying brands in untagged/ unlabeled photos from a social media feed.  The model I use implements a [previously trained]https://github.com/tensorflow/models/tree/master/inception network and [transfer learning] to speed training.  This project was [inspired](https://www.youtube.com/watch?v=0Ho0O1tvcU4) by a [number](https://sightengine.com/) of [different](https://research.googleblog.com/2016/03/train-your-own-image-classifier-with.html) sources.
 
-[previously trained]:https://github.com/tensorflow/models/tree/master/inception
-[available for text]:(https://www.diffbot.com/)
-[transfer learning]:(https://en.wikipedia.org/wiki/Inductive_transfer)
-[inspired]:(https://www.youtube.com/watch?v=0Ho0O1tvcU4)
-[number]:(https://sightengine.com/)
-[different]:(https://research.googleblog.com/2016/03/train-your-own-image-classifier-with.html)
 
 <!-- *In this section, look to provide a high-level overview of the project in layman’s terms. Questions to ask yourself when writing this section:
 - _Has an overview of the project been provided, such as the problem domain, project origin, and related datasets or input data?_
@@ -174,7 +168,7 @@ Replacing the final layer of a previously trained network and replacing it with 
 
 5. Update the bottlenecks
 
-  The penultimate layers of the model that perform the actual classification.
+  This is aa term [coined by Google](https://www.tensorflow.org/versions/master/how_tos/image_retraining/index.html#bottlenecks) to refer to the the penultimate layers of the model that perform the actual classification.
 
 6. Retrain the network on my images of interest
 
@@ -262,11 +256,11 @@ The following steps were performed to create the final model:
 1. Construct the Inception v3 network in TensorFlow
 1. Load pre-trained weights into the previously built network
 1. Modify the pre-existing model for our classification tasks
-1. Update the bottlenecks
+1. Update bottlenecks
 1. Retrain the network on images of interest
 1. Record & Evaluate model performance
 
-In order to reconstruct these results locally, follow the TensorFlow [tutorial](https://www.tensorflow.org/versions/master/how_tos/image_retraining/index.html) on transfer learning and retraining.  Once you have that setup, replace the existing `retrain.py` file with the version [here](). [###todo github link for retrain.py] and the dataset available [here](dropbox.com)[###todo link to dataset].
+In order to reconstruct these results locally, follow the TensorFlow [tutorial](https://www.tensorflow.org/versions/master/how_tos/image_retraining/index.html) on transfer learning and retraining.  Once you have that setup, replace the existing `retrain.py` file with the [version here](https://github.com/chriskaschner/Udacity_ML_Nanodegree/tree/master/Project%205%20-%20Brand%20Recognition/image_retraining) and the dataset available [here](https://dl.dropboxusercontent.com/u/969119/DatasetForMLN.zip).
 
 #### Initial Results
 
