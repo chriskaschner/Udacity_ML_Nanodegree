@@ -3,7 +3,6 @@
 ### Chris Kaschner 2016-08-9
 
 ## I. Definition
-<!-- _(approx. 1-2 pages)_ -->
 
 ### Project Overview
 
@@ -12,11 +11,6 @@ An [estimated 2 trillion photos](http://ben-evans.com/benedictevans/2015/8/19/ho
 Is there a way to be able to identify the objects in an image to be able to know what brands are present in an image?  This type of structured data is already [available for text](https://www.diffbot.com/) but what about images?  What if a customer had an issue and posted an image without your company name in the text description?  How would you could you identify and find such images?
 
 In this project I create a Convolutional Neural Network (CNN) that is capable of identifying brands in untagged/ unlabeled photos from a social media feed.  The model I use implements a [previously trained](https://github.com/tensorflow/models/tree/master/inception) network and [transfer learning](https://en.wikipedia.org/wiki/Inductive_transfer) to speed training.  This project was [inspired](https://www.youtube.com/watch?v=0Ho0O1tvcU4) by a [number](https://sightengine.com/) of [different](https://research.googleblog.com/2016/03/train-your-own-image-classifier-with.html) sources.
-
-
-<!-- *In this section, look to provide a high-level overview of the project in layman’s terms. Questions to ask yourself when writing this section:
-- _Has an overview of the project been provided, such as the problem domain, project origin, and related datasets or input data?_
-- _Has enough background information been given so that an uninformed reader would understand the problem domain and following problem statement?_* -->
 
 #### Problem Statement
 
@@ -33,7 +27,7 @@ In order to solve this problem I undertake the following:
 
 This project solves a classification problem.  In its first incarnation discerning between 2 brands represents a _supervised binary classification_ problem.  In this case, selecting whether [Nike](http://www.nike.com/) or [Altra](https://www.altrarunning.com/) products are present.
 
-![AltraNikeLogo](AltraNikeLogo.png)
+![AltraNikeLogo](images/AltraNikeLogo.png)
 
 
 Later, when a third category is introduced it becomes a _supervised multiclass classification_ problem.  [This website offers](https://medium.com/@ageitgey/machine-learning-is-fun-80ea3ec3c471#.rrxfc4qgh) a great layman's introduction to these concepts.
@@ -46,21 +40,21 @@ There are 2 metrics I use to gauge the performance of my model: accuracy and cro
 The accuracy is the primary measure of overall model performance.  It is represented as a percentage of the number of images the model correctly identified divided by the total number of attempts.
 
 Accuracy should improve as our model iterates, as shown below:
-![Accuracy_Summary](Accuracy_Summary.png)
+![Accuracy_Summary](images/Accuracy_Summary.png)
 
 ##### Cross-Entropy
 Cross-entropy is a measure of a model's loss or cost.  A high value represents a model doing a poor job thus we seek to minimize the cross-entropy.   A more in-depth discussion of cross-entropy is [available here](http://neuralnetworksanddeeplearning.com/chap3.html#the_cross-entropy_cost_function)
 
 In general, we expect to see cross-entropy decreasing as our model iterates, like this:
-![cross_entropy](crossentropy_summary.png)
+![cross_entropy](images/crossentropy_summary.png)
 
 
 If cross-entropy begins diverging the model is overfitting and some changes are required.  This can be seen in Run04:
-![overfitting](OverfitCross.png)
+![overfitting](images/OverfitCross.png)
 
 Overfitting occurs when a model is describing randomness and/ or noise in a dataset instead of the underlying relationship.  
 
-![overfitting](Overfitted_Data.png)
+![overfitting](images/Overfitted_Data.png)
 
 In the above chart, the blue line represents an overly complex polynomial function that perfectly describes a linear relationship between the points.
 
@@ -72,19 +66,14 @@ To reduce and mitigate overfitting, we split our images into 3 categories.
 
 By using these 2 metrics we'll be able to quantify how well our model is performing via the accuracy but also how well the model is *learning* via the cross entropy.
 
-<!-- *In this section, you will need to clearly define the metrics or calculations you will use to measure performance of a model or result in your project. These calculations and metrics should be justified based on the characteristics of the problem and problem domain. Questions to ask yourself when writing this section:
-- _Are the metrics you’ve chosen to measure the performance of your models clearly discussed and defined?_
-- _Have you provided reasonable justification for the metrics chosen based on the problem and solution?_* -->
-
-
 ## II. Analysis
-<!-- _(approx. 2-4 pages)_ -->
+
 ### Data Exploration
 
 2 datasets were used in this project.  The majority of the images were downloaded from Instagram and represent the typical input image that could be expected from a direct feed of images flowing into Instagram at any given time.  Tags were used to search for the Altra & Nike images.  An example search and results can [be seen here](https://www.instagram.com/explore/tags/altra/).
 
 #### Examples of Altra and Nike logos
-![Example](Examples.png)
+![Example](images/Examples.png)
 
 #### First data set
 
@@ -102,13 +91,7 @@ To supplement this data set, as well as test my models' performance on perturbat
 
 Within the dataset there are a number of images that are difficult to classify.  Here are some examples and explanations of those images in the dataset.
 
-![](PictureGrid01.png)
-
-<!-- *In this section, you will be expected to analyze the data you are using for the problem. This data can either be in the form of a dataset (or datasets), input data (or input files), or even an environment. The type of data should be thoroughly described and, if possible, have basic statistics and information presented (such as discussion of input features or defining characteristics about the input or environment). Any abnormalities or interesting qualities about the data that may need to be addressed have been identified (such as features that need to be transformed or the possibility of outliers). Questions to ask yourself when writing this section:
-- _If a dataset is present for this problem, have you thoroughly discussed certain features about the dataset? Has a data sample been provided to the reader?_
-- _If a dataset is present for this problem, are statistics about the dataset calculated and reported? Have any relevant results from this calculation been discussed?_
-- _If a dataset is **not** present for this problem, has discussion been made about the input space or input data for your problem?_
-- _Are there any abnormalities or characteristics about the input space or dataset that need to be addressed? (categorical variables, missing values, outliers, etc.)_* -->
+![](images/PictureGrid01.png)
 
 ### Algorithms and Techniques
 
@@ -132,7 +115,7 @@ The Inception architecture [first appeared in a model called "GoogLeNet"](https:
 Training a large and complex CNN is a nontrivial task.  For example, training the Inception v3 network which [has over 27 million parameters]((http://blog.kubernetes.io/2016/03/scaling-neural-network-image-classification-using-Kubernetes-with-TensorFlow-Serving.html), would take approximately 2 weeks to train on $50k worth of computer hardware and would need several *million* images.  
 
 ##### Inception v3 network
-![Inception](inception_v3_architecture.png)
+![Inception](images/inception_v3_architecture.png)
 
 By using [transfer learning](https://papers.nips.cc/paper/5347-how-transferable-are-features-in-deep-neural-networks.pdf) a model that was created at Google and trained on their enormous image library can be used for our image classification task of ~500 images total.  This technique relies on the inherent ability of neural networks that have been trained on one classification task to [be effective]((http://www.kdnuggets.com/2015/08/recycling-deep-learning-representations-transfer-ml.html)) at recognizing features in new tasks.
 
@@ -183,47 +166,30 @@ Replacing the final layer of a previously trained network and replacing it with 
 
 9. Select the optimum solution
 
-<!-- In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
-- _Are the algorithms you will use, including any default variables/parameters in the project clearly defined?_
-- _Are the techniques to be used thoroughly discussed and justified?_
-- _Is it made clear how the input data or datasets will be handled by the algorithms and techniques chosen?_ -->
-
 #### Exploratory Visualization
 
 It is important to remember that computers do not "see" images in the same way as humans.  One way to help us to understand how a CNN is "viewing" an image is to visualize the inputs that would maximize different layers of our network.  Using the VGG16 model and [the process described here](https://blog.keras.io/how-convolutional-neural-networks-see-the-world.html) we can see what a neural network would characterize as an ideal input.
 
 ##### From the first convolutional layer:
-![VGG16_filters](stitched_filters_7x7_Conv1-1.png)
+![VGG16_filters](images/stitched_filters_7x7_Conv1-1.png)
 
 ##### From the last convolutional layer:
-![VGG16_filters](stitched_filters_8x8_Conv5-1.png)
+![VGG16_filters](images/stitched_filters_8x8_Conv5-1.png)
 
 Examining different layers within our neural network, we can begin to appreciate how our network is building up features to identify objects.  We can also start to understand what a network can "see".
-
-<!-- In this section, you will need to provide some form of visualization that summarizes or extracts a relevant characteristic or feature about the data. The visualization should adequately support the data being used. Discuss why this visualization was chosen and how it is relevant. Questions to ask yourself when writing this section:
-- _Have you visualized a relevant characteristic or feature about the dataset or input data?_
-- _Is the visualization thoroughly analyzed and discussed?_
-- _If a plot is provided, are the axes, title, and datum clearly defined?_ -->
 
 ### Benchmark
 
 Running the initial CNN with default values as seen from [this tutorial](https://www.tensorflow.org/versions/master/how_tos/image_retraining/index.html) yields a result of 87.8% test accuracy on the simplest form of binary classification- only selecting Nike or Altra and the smaller our two datsets
 
-![Run01-Accuracy](Run 01/Run01-Accuracy.png "Run01 Accuracy")
-![Run01-CrossEntropy](Run 01/Run01-CrossEntropy.png "Run01 Cross Entropy")
+![Run01-Accuracy](images/Run 01/Run01-Accuracy.png "Run01 Accuracy")
+![Run01-CrossEntropy](images/Run 01/Run01-CrossEntropy.png "Run01 Cross Entropy")
 
 How does it do on the difficult images we identified previously?
 
-![](PictureGrid02.png)
-
-
-<!-- In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:
-- _Has some result or value been provided that acts as a benchmark for measuring performance?_
-- _Is it clear how this result or value was obtained (whether by data or by hypothesis)?_ -->
-
+![](images/PictureGrid02.png)
 
 ## III. Methodology
-<!-- _(approx. 3-5 pages)_ -->
 
 ### Data Preprocessing
 
@@ -233,7 +199,7 @@ One way to improve my data set is to crop the images in a way that highlights th
 
 The following image provides an example- the original image contains 3 samples of the Nike logo.  By training on the original image as well as the 2 cropped versions of just the logo increases the number of training images as well as our models' ability to differentiate the Nike logo in images.
 
-![NikeCrop](NikeCrop.png "An Example of Image Cropping")
+![NikeCrop](images/NikeCrop.png "An Example of Image Cropping")
 
 Adobe Lightroom was used to load, crop, and export images in both the Altra and Nike categories.  The resulting images were used to supplement both datasets.
 
@@ -243,12 +209,6 @@ The model itself handles data preprocessing steps including:
 1. Images randomly split into training, validation, and testing sets
 1. Resized so that the longest edge is 299 pixels wide/ tall
 1. Reshaped into 299x299x3 array for Preprocessing
-
-
-<!-- In this section, all of your preprocessing steps will need to be clearly documented, if any were necessary. From the previous section, any of the abnormalities or characteristics that you identified about the dataset will be addressed and corrected here. Questions to ask yourself when writing this section:
-- _If the algorithms chosen require preprocessing steps like feature selection or feature transformations, have they been properly documented?_
-- _Based on the **Data Exploration** section, if there were abnormalities or characteristics that needed to be addressed, have they been properly corrected?_
-- _If no preprocessing is needed, has it been made clear why?_ -->
 
 ### Implementation
 
@@ -272,17 +232,12 @@ In order to reconstruct these results locally, follow the TensorFlow [tutorial](
 18 runs total are shown below.  Some underperforming trials are omitted for clarity and brevity.
 
 ##### Training
-![TrainingAccuracyAll](TrainAccuracyAll.png)
-![TrainingCrossAll](TrainCrossAll.png)
+![TrainingAccuracyAll](images/TrainAccuracyAll.png)
+![TrainingCrossAll](images/TrainCrossAll.png)
 
 ##### Validation
-![ValidationAccuracyAll](ValidationAccuracyAll.png)
-![ValidationCrossAll](ValidationCrossAll.png)
-
-<!-- In this section, the process for which metrics, algorithms, and techniques that you implemented for the given data will need to be clearly documented. It should be abundantly clear how the implementation was carried out, and discussion should be made regarding any complications that occurred during this process. Questions to ask yourself when writing this section:
-- _Is it made clear how the algorithms and techniques were implemented with the given datasets or input data?_
-- _Were there any complications with the original metrics or techniques that required changing prior to acquiring a solution?_
-- _Was there any part of the coding process (e.g., writing complicated functions) that should be documented?_ -->
+![ValidationAccuracyAll](images/ValidationAccuracyAll.png)
+![ValidationCrossAll](images/ValidationCrossAll.png)
 
 ### Refinement
 
@@ -304,11 +259,6 @@ Our benchmark test accuracy of 87.8% only describes the case of binary classific
     * [Stochastic Gradient Descent](https://www.tensorflow.org/versions/r0.10/api_docs/python/train.html#GradientDescentOptimizer) (SGD) - most common.
     * [Adaptive Gradient](http://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf) or "Adagrad" that adapts the learning rate and utilizes an accumulator value (δ) that is typically between [0.01]((http://sebastianruder.com/optimizing-gradient-descent/index.html#adagrad) and [0.1](https://www.tensorflow.org/versions/r0.10/api_docs/python/train.html#AdagradOptimizer)
 
-<!-- In this section, you will need to discuss the process of improvement you made upon the algorithms and techniques you used in your implementation. For example, adjusting parameters for certain models to acquire improved solutions would fall under the refinement category. Your initial and final solutions should be reported, as well as any significant intermediate results as necessary. Questions to ask yourself when writing this section:
-- _Has an initial solution been found and clearly reported?_
-- _Is the process of improvement clearly documented, such as what techniques were used?_
-- _Are intermediate and final solutions clearly reported as the process is improved?_ -->
-
 ## IV. Results
 ### Model Evaluation and Validation
 
@@ -325,24 +275,19 @@ Ranked by test accuracy, here are the top results.
 
 Comparing the training and validation scores amongst the top results:
 ##### Training Accuracy
-![TopTrainAccuracy](TopTrainAccuracy.png)
+![TopTrainAccuracy](images/TopTrainAccuracy.png)
 
 ##### Validation Accuracy
-![TopValidationAccuracy](TopValidationAccuracy.png)
+![TopValidationAccuracy](images/TopValidationAccuracy.png)
 
 
 We can also compare cross-entropy between models
 ##### Training Cross-Entropy
-![TopTrainCross](TopTrainCross.png)
+![TopTrainCross](images/TopTrainCross.png)
 
 ##### Validation Cross-Entropy
-![TopValidationCross](TopValidationCross.png)
+![TopValidationCross](images/TopValidationCross.png)
 
-<!-- In this section, the final model and any supporting qualities should be evaluated in detail. It should be clear how the final model was derived and why this model was chosen. In addition, some type of analysis should be used to validate the robustness of this model and its solution, such as manipulating the input data or environment to see how the model’s solution is affected (this is called sensitivity analysis). Questions to ask yourself when writing this section:
-- _Is the final model reasonable and aligning with solution expectations? Are the final parameters of the model appropriate?_
-- _Has the final model been tested with various inputs to evaluate whether the model generalizes well to unseen data?_
-- _Is the model robust enough for the problem? Do small perturbations (changes) in training data or the input space greatly affect the results?_
-- _Can results found from the model be trusted?_ -->
 
 ### Justification
 
@@ -366,32 +311,20 @@ We can also compare cross-entropy between models
 Despite improvements to our model, we can see from the below that there remains images that are difficult to classify.  Although these results do not show 100% accuracy, for my purposes I prefer that the model "fails" to the neither category (a false negative).  Previously, in the binary classification model, the model would fail to one of the brands of interest (false positive).
 
 #### Binary
-![](PictureGrid05.png)
+![](images/PictureGrid05.png)
 
 #### Multiclass
-![](PictureGrid03.png)
-
-<!-- In this section, your model’s final solution and its results should be compared to the benchmark you established earlier in the project using some type of statistical analysis. You should also justify whether these results and the solution are significant enough to have solved the problem posed in the project. Questions to ask yourself when writing this section:
-- _Are the final results found stronger than the benchmark result reported earlier?_
-- _Have you thoroughly analyzed and discussed the final solution?_
-- _Is the final solution significant enough to have solved the problem?_ -->
-
+![](images/PictureGrid03.png)
 
 ## V. Conclusion
-<!-- _(approx. 1-2 pages)_ -->
 
 ### Free-Form Visualization
 
 We started with a discussion of how being able to identify problems with your products would permit a company to contact and resolve issues for customers.  So how does our model perform on images of shoes that may require intervention?
 
-![BadShoes](PictureGrid04.png)
+![BadShoes](images/PictureGrid04.png)
 
 From these results I would say that the model does a good job identifying the brands in the above photos and would provide the ability to find a customers image without any other information.
-
-<!-- In this section, you will need to provide some form of visualization that emphasizes an important quality about the project. It is much more free-form, but should reasonably support a significant result or characteristic about the problem that you want to discuss. Questions to ask yourself when writing this section:
-- _Have you visualized a relevant or important quality about the problem, dataset, input data, or results?_
-- _Is the visualization thoroughly analyzed and discussed?_
-- _If a plot is provided, are the axes, title, and datum clearly defined?_ -->
 
 ### Reflection
 
@@ -427,32 +360,10 @@ Visualizing neural networks proved to be one of the more difficult aspect of the
 #### Expectations
 My final model performs better than I expected.  The accuracy of predictions was nearly 90% for multiclass classification which was beyond my expectation.  Especially in light of the relatively small dataset provided for training.  ~90% accuracy with ~500 images across 3 classes is an excellent result.
 
-<!-- In this section, you will summarize the entire end-to-end problem solution and discuss one or two particular aspects of the project you found interesting or difficult. You are expected to reflect on the project as a whole to show that you have a firm understanding of the entire process employed in your work. Questions to ask yourself when writing this section:
-- _Have you thoroughly summarized the entire process you used for this project?_
-- _Were there any interesting aspects of the project?_
-- _Were there any difficult aspects of the project?_
-- _Does the final model and solution fit your expectations for the problem, and should it be used in a general setting to solve these types of problems?_ -->
-
 ### Improvement
 
 * implement a web based interface to this model.  Bonus point if you could provide additional information in the event an image was mis-classified.  Remotely using the model would be beneficial in lieu of downloading my Python code and running locally.  Additionally, a web based implementation could be extended to mobile devices as well, negating the need for a mobile based version.
 * TensorFlow can be run on a mobile device, extending this work to an iOS or Android device would allow the model to be run remotely.
 * Comparing my results to another baseline, such as [PCANet](http://arxiv.org/abs/1404.3606) would be a good gut check of my results.
 * Deeper [sensitivity analysis](https://beckmw.wordpress.com/2013/10/07/sensitivity-analysis-for-neural-networks/)
-* The network could always be improved by adding additional training images.
-
-<!-- In this section, you will need to provide discussion as to how one aspect of the implementation you designed could be improved. As an example, consider ways your implementation can be made more general, and what would need to be modified. You do not need to make this improvement, but the potential solutions resulting from these changes are considered and compared/contrasted to your current solution. Questions to ask yourself when writing this section:
-- _Are there further improvements that could be made on the algorithms or techniques you used in this project?_
-- _If you used your final solution as the new benchmark, do you think an even better solution exists?_
-
------------ -->
-<!--
-**Before submitting, ask yourself. . .**
-
-- Does the project report you’ve written follow a well-organized structure similar to that of the project template?
-- Is each section (particularly **Analysis** and **Methodology**) written in a clear, concise and specific fashion? Are there any ambiguous terms or phrases that need clarification?
-- Would the intended audience of your project be able to understand your analysis, methods, and results?
-- Have you properly proof-read your project report to assure there are minimal grammatical and spelling mistakes?
-- Are all the resources used for this project correctly cited and referenced?
-- Is the code that implements your solution easily readable and properly commented?
-- Does the code execute without error and produce results similar to those reported? -->
+* Any neural network can be improved by adding additional training images.
