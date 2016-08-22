@@ -9,16 +9,19 @@ from PIL import Image
 # from urllib import urlretrieve
 
 # imagePath = './Report/images/AltraDifficult01.jpg'
-imgURL = 'http://imgdirect.s3-website-us-west-2.amazonaws.com/nike.jpg'
+# imgURL = 'http://imgdirect.s3-website-us-west-2.amazonaws.com/nike.jpg'
 modelFullPath = './Report/output_graph.pb'
 labelsFullPath = './Report/output_labels.txt'
+results_name = []
+results_score = []
+results = []
 
 # Download the file from `url`, save it in a temporary directory and get the
 # path to it (e.g. '/tmp/tmpb48zma.txt') in the `file_name` variable:
-imagePath, headers = urllib.urlretrieve(imgURL)
-
-imgFile = cStringIO.StringIO(urllib.urlopen(imgURL).read())
-img = Image.open(imgFile)
+# imagePath, headers = urllib.urlretrieve(imgURL)
+#
+# imgFile = cStringIO.StringIO(urllib.urlopen(imgURL).read())
+# img = Image.open(imgFile)
 
 def create_graph():
     """Creates a graph from saved GraphDef file and returns a saver."""
@@ -27,8 +30,6 @@ def create_graph():
         graph_def = tf.GraphDef()
         graph_def.ParseFromString(f.read())
         _ = tf.import_graph_def(graph_def, name='')
-        print "graph built"
-
 
 def run_inference_on_image():
     answer = None
@@ -56,6 +57,8 @@ def run_inference_on_image():
         for node_id in top_k:
             human_string = labels[node_id]
             score = predictions[node_id]
+            results_name.append(human_string)
+            results_score.append(score)
             print('%s (score = %.5f)' % (human_string, score))
 
         answer = labels[top_k[0]]
@@ -72,7 +75,6 @@ def run_inference_on_image():
 
 # if __name__ == '__main__':
 #     run_inference_on_image()
-
 
 
 if __name__ == '__main__':
@@ -99,21 +101,28 @@ if __name__ == '__main__':
 #     )
 
     args = parser.parse_args()
-    print "args are-", args
+
     # imagePath = args.image_url
     # print "image path is-",imagePath
-
+    imgURL = args.image_url
+    imagePath, headers = urllib.urlretrieve(imgURL)
     run_inference_on_image()
-
+    results = zip(results_name,results_score)
     post_params = {
-        "image_url": args.image_url
-        # "detect_type": "TEXT_DETECTION"
+        "image_url": args.image_url,
+        "results_name_1": results_name[0],
+        "results_score_1": json.JSONEncoder().encode(format(results_score[0], '.5f')),
+        "results_name_2": results_name[1],
+        "results_score_2": json.JSONEncoder().encode(format(results_score[1], '.5f')),
+        "results_name_3": results_name[2],
+        "results_score_3": json.JSONEncoder().encode(format(results_score[2], '.5f'))
     }
 
     # Lazy and used requests in addition to urllib2
     print "post params are- ", post_params
-    # r = requests.post(args.endpoint,
-    #                   data=json.dumps(post_params),
-    #                   headers={'content-type': 'application/json'})
-    # detection_results = r.json()
-    # pprint(detection_results)
+    print "results are: ", results
+    r = requests.post(args.endpoint,
+                      data=json.dumps(post_params),
+                      headers={'content-type': 'application/json'})
+    detection_results = r.json()
+    pprint(detection_results)
