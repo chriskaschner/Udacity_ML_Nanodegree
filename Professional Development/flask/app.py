@@ -7,7 +7,7 @@ from pprint import pprint
 import urllib, cStringIO
 from PIL import Image
 # from urllib import urlretrieve
-from flask import Flask, jsonify, abort
+from flask import Flask, jsonify, abort, make_response, request
 
 app = Flask(__name__)
 
@@ -24,9 +24,42 @@ images = [
         'url': 'http://imgdirect.s3-website-us-west-2.amazonaws.com/altra.jpg'
     }
 ]
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
 @app.route('/img/api/v1.0/images', methods=['GET'])
 def get_images():
     return jsonify({'images': images})
+
+@app.route('/img/api/v1.0/images/<int:img_id>', methods=['GET'])
+def get_image(img_id):
+    img = [img for img in images if img['id'] == img_id]
+    if len(img) == 0:
+        abort(404)
+    return jsonify({'img': img[0]})
+
+### test String
+### curl -i -H "Content-Type: application/json" -X POST -d '{"url":"http://imgdirect.s3-website-us-west-2.amazonaws.com/neither.jpg"}' http://127.0.0.1:5000/img/api/v1.0/images
+@app.route('/img/api/v1.0/images', methods=['POST'])
+def create_task():
+    if not request.json or not 'url' in request.json:
+        abort(400)
+
+    image = {
+        ### simple way to ensure a unique id, just add 1
+        'id' : images[-1]['id'] + 1,
+        ### allow an empty title
+        'title': request.json.get('title', ""),
+        ### url is required, otherwise return error code 400
+        'url': request.json['url'],
+        ###todo add logic to retrieve results from image prediction
+        'results': run_inference_on_image(request.json['url'])
+
+    }
+    images.append(image)
+    return jsonify({'image': image}), 201
+
 
 # imagePath = './Report/images/AltraDifficult01.jpg'
 # imgURL = 'http://imgdirect.s3-website-us-west-2.amazonaws.com/nike.jpg'
@@ -51,9 +84,9 @@ def create_graph():
         graph_def.ParseFromString(f.read())
         _ = tf.import_graph_def(graph_def, name='')
 
-def run_inference_on_image():
+def run_inference_on_image(imgURL):
     answer = None
-
+    imagePath, headers = urllib.urlretrieve(imgURL)
     if not tf.gfile.Exists(imagePath):
         tf.logging.fatal('File does not exist %s', imagePath)
         return answer
@@ -80,9 +113,17 @@ def run_inference_on_image():
             results_name.append(human_string)
             results_score.append(score)
             print('%s (score = %.5f)' % (human_string, score))
-
-        answer = labels[top_k[0]]
-        return answer
+        # answer = labels[top_k[0]]
+        results = zip(results_name, results_score)
+        results_dict = {
+            "results_name_1": results_name[0],
+            "results_score_1": json.JSONEncoder().encode(format(results_score[0], '.5f')),
+            "results_name_2": results_name[1],
+            "results_score_2": json.JSONEncoder().encode(format(results_score[1], '.5f')),
+            "results_name_3": results_name[2],
+            "results_score_3": json.JSONEncoder().encode(format(results_score[2], '.5f'))
+        }
+        return results_dict
 
 ## should use "try... "
 # def is_valid_file(parser, arg):
@@ -126,24 +167,24 @@ if __name__ == '__main__':
     # print "image path is-",imagePath
     imgURL = args.image_url
     imagePath, headers = urllib.urlretrieve(imgURL)
-    run_inference_on_image()
-    results = zip(results_name,results_score)
-    post_params = {
-        "image_url": args.image_url,
-        "results_name_1": results_name[0],
-        "results_score_1": json.JSONEncoder().encode(format(results_score[0], '.5f')),
-        "results_name_2": results_name[1],
-        "results_score_2": json.JSONEncoder().encode(format(results_score[1], '.5f')),
-        "results_name_3": results_name[2],
-        "results_score_3": json.JSONEncoder().encode(format(results_score[2], '.5f'))
-    }
+    # run_inference_on_image()
 
-    # Lazy and used requests in addition to urllib2
-    print "post params are- ", post_params
-    print "results are: ", results
-    r = requests.post(args.endpoint,
-                      data=json.dumps(post_params),
-                      headers={'content-type': 'application/json'})
-    detection_results = r.json()
-    pprint(detection_results)
+    # post_params = {
+        # "image_url": args.image_url,
+        # "results_name_1": results_name[0],
+        # "results_score_1": json.JSONEncoder().encode(format(results_score[0], '.5f')),
+        # "results_name_2": results_name[1],
+        # "results_score_2": json.JSONEncoder().encode(format(results_score[1], '.5f')),
+        # "results_name_3": results_name[2],
+        # "results_score_3": json.JSONEncoder().encode(format(results_score[2], '.5f'))
+    # }
+    #
+    # # Lazy and used requests in addition to urllib2
+    # print "post params are- ", post_params
+    # print "results are: ", results
+    # r = requests.post(args.endpoint,
+    #                   data=json.dumps(post_params),
+    #                   headers={'content-type': 'application/json'})
+    # detection_results = r.json()
+    # pprint(detection_results)
     app.run(debug=True)
