@@ -1,9 +1,6 @@
 import numpy as np
 import tensorflow as tf
-# import argparse
 import json
-# import requests
-
 import urllib
 from flask import Flask, jsonify, abort, make_response, request, url_for
 from flask.ext.httpauth import HTTPBasicAuth
@@ -19,7 +16,7 @@ def get_password(username):
 
 @auth.error_handler
 def unauthorized():
-    return make_response(jsonify({'error': 'Unauthorized Access'}), 401)
+    return make_response(jsonify({'error': 'Unauthorized Access'}), 403)
 
 # datastore for this example; ###todo - add database
 ###todo replace URL with URI to be overly pedantic
@@ -163,13 +160,13 @@ def run_inference_on_image(imgURL):
         results = zip(results_name, results_score)
         results_dict = {
             "results_name_1": results_name[0],
-            "results_score_1": json.JSONEncoder().encode(format(results_score[0], '.5f')),
+            "results_score_1": json.JSONEncoder().encode(format(results_score[0], '.4f')),
             "results_name_2": results_name[1],
-            "results_score_2": json.JSONEncoder().encode(format(results_score[1], '.5f')),
+            "results_score_2": json.JSONEncoder().encode(format(results_score[1], '.4f')),
             "results_name_3": results_name[2],
-            "results_score_3": json.JSONEncoder().encode(format(results_score[2], '.5f'))
+            "results_score_3": json.JSONEncoder().encode(format(results_score[2], '.4f'))
         }
         return results_dict
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
