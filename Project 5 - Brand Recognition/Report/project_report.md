@@ -112,12 +112,12 @@ The Inception architecture [first appeared in a model called "GoogLeNet"](https:
 
 #### Transfer Learning & Pre-trained networks
 
-Training a large and complex CNN is a nontrivial task.  For example, training the Inception v3 network which [has over 27 million parameters]((http://blog.kubernetes.io/2016/03/scaling-neural-network-image-classification-using-Kubernetes-with-TensorFlow-Serving.html), would take approximately 2 weeks to train on $50k worth of computer hardware and would need several *million* images.  
+Training a large and complex CNN is a nontrivial task.  For example, training the Inception v3 network which [has over 27 million parameters](http://blog.kubernetes.io/2016/03/scaling-neural-network-image-classification-using-Kubernetes-with-TensorFlow-Serving.html), would take approximately 2 weeks to train on $50k worth of computer hardware and would need several *million* images.  
 
 ##### Inception v3 network
 ![Inception](images/inception_v3_architecture.png)
 
-By using [transfer learning](https://papers.nips.cc/paper/5347-how-transferable-are-features-in-deep-neural-networks.pdf) a model that was created at Google and trained on their enormous image library can be used for our image classification task of ~500 images total.  This technique relies on the inherent ability of neural networks that have been trained on one classification task to [be effective]((http://www.kdnuggets.com/2015/08/recycling-deep-learning-representations-transfer-ml.html)) at recognizing features in new tasks.
+By using [transfer learning](https://papers.nips.cc/paper/5347-how-transferable-are-features-in-deep-neural-networks.pdf) a model that was created at Google and trained on their enormous image library can be used for our image classification task of ~500 images total.  This technique relies on the inherent ability of neural networks that have been trained on one classification task to [be effective](http://www.kdnuggets.com/2015/08/recycling-deep-learning-representations-transfer-ml.html) at recognizing features in new tasks.
 
 Replacing the final layer of a previously trained network and replacing it with our preferred classifications allows us to leverage the power of a network that may have been trained for weeks on an array of high-powered GPUs and retraining it in a few minutes for our task.
 
@@ -257,7 +257,7 @@ Our benchmark test accuracy of 87.8% only describes the case of binary classific
     * How many training steps to take.
   * Optimizer Type
     * [Stochastic Gradient Descent](https://www.tensorflow.org/versions/r0.10/api_docs/python/train.html#GradientDescentOptimizer) (SGD) - most common.
-    * [Adaptive Gradient](http://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf) or "Adagrad" that adapts the learning rate and utilizes an accumulator value (δ) that is typically between [0.01]((http://sebastianruder.com/optimizing-gradient-descent/index.html#adagrad) and [0.1](https://www.tensorflow.org/versions/r0.10/api_docs/python/train.html#AdagradOptimizer)
+    * [Adaptive Gradient](http://www.jmlr.org/papers/volume12/duchi11a/duchi11a.pdf) or "Adagrad" that adapts the learning rate and utilizes an accumulator value (δ) that is typically between [0.01](http://sebastianruder.com/optimizing-gradient-descent/index.html#adagrad) and [0.1](https://www.tensorflow.org/versions/r0.10/api_docs/python/train.html#AdagradOptimizer)
 
 ## IV. Results
 ### Model Evaluation and Validation
