@@ -17,6 +17,7 @@ In this project I create a Convolutional Neural Network (CNN) that is capable of
 Can you teach a computer to recognize  the brand logos of Nike and Altra in an unlabeled feed of images from Instagram?
 
 In order to solve this problem I undertake the following:
+
 1. Identify suitable existing neural networks trained for image recognition and classification
 1. Implement the existing models locally and load pretrained weights
 1. Obtain a dataset of images to retrain the network on the brands of interest
