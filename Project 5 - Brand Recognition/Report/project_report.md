@@ -152,7 +152,7 @@ Replacing the final layer of a previously trained network and replacing it with 
 
 5. Update the bottlenecks
 
-  This is aa term [coined by Google](https://www.tensorflow.org/versions/master/how_tos/image_retraining/index.html#bottlenecks) to refer to the the penultimate layers of the model that perform the actual classification.
+  This is a term [coined by Google](https://www.tensorflow.org/versions/master/how_tos/image_retraining/index.html#bottlenecks) to refer to the the penultimate layers of the model that perform the actual classification.
 
 6. Retrain the network on my images of interest
 
